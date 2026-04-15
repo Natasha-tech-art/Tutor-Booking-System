@@ -39,7 +39,7 @@ const Navbar = () => {
             <UserPlus size={16} /> Join
           </Link>
           <Link 
-            to="/signup" 
+            to="/login" 
             className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg active:scale-95 border border-blue-400/50"
           >
             <LogIn size={18} />

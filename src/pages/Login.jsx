@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Lock, LogIn, ArrowRight, Github } from 'lucide-react';
+import { Mail, Lock, LogIn, ArrowRight, } from 'lucide-react';
 
 const Login = () => {
   return (

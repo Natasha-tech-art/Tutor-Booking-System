@@ -1,17 +1,22 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Page Imports
 import Home from './pages/Home';
-import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
-import Tutors from './pages/tutors';
-import BookingPage from './pages/booking';
+import Tutors from './pages/Tutors';
+import BookingPage from './pages/Booking';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+
+// Component Imports
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <Router>
       <div className="App relative bg-slate-900 min-h-screen text-white">
+        {/* The Navbar stays at the top of every page */}
         <Navbar />
         
         <Routes>
