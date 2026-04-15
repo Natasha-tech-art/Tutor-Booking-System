@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, Clock, CreditCard, CheckCircle } from 'lucide-react';
 
 const BookingPage = () => {
-  const { tutorName } = useParams(); // Gets the name from the URL
+  const { tutorName } = useParams();
   const navigate = useNavigate();
   const [booked, setBooked] = useState(false);
   
@@ -15,7 +15,6 @@ const BookingPage = () => {
 
   const handleBooking = (e) => {
     e.preventDefault();
-    // CRUD: "Create" a new booking in localStorage
     const newBooking = {
       id: Date.now(),
       tutorName: tutorName || "Expert Tutor",
@@ -27,7 +26,7 @@ const BookingPage = () => {
     localStorage.setItem('sessions', JSON.stringify([...existingBookings, newBooking]));
     
     setBooked(true);
-    setTimeout(() => navigate('/dashboard'), 3000); // Redirect to show the new booking
+    setTimeout(() => navigate('/dashboard'), 3000); 
   };
 
   if (booked) {

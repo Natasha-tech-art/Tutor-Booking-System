@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, Star, BookOpen, DollarSign } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Tutors = () => {
   const [tutors, setTutors] = useState([]);
   const [filter, setFilter] = useState('All');
 
-  // Load tutors from LocalStorage (Read)
   useEffect(() => {
     const savedTutors = JSON.parse(localStorage.getItem('tutors')) || [
-      // Mock data so the page isn't empty at first
       { id: 1, name: "Dr. Aris", subject: "Mathematics", price: "40", rating: 4.9 },
       { id: 2, name: "Sarah Chen", subject: "Physics", price: "35", rating: 4.8 },
       { id: 3, name: "Mike Ross", subject: "Law", price: "50", rating: 5.0 }
@@ -49,7 +48,6 @@ const Tutors = () => {
           </div>
         </div>
 
-        {/* Tutor Grid */}
         <div className="flex-1">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTutors.map(tutor => (
@@ -76,6 +74,12 @@ const Tutors = () => {
                   </div>
                   <button className="bg-white text-blue-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-blue-500 hover:text-white transition">
                     Book Now
+                    <Link 
+  to={`/book/${tutor.name}`} 
+  className="bg-white text-blue-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-blue-500 hover:text-white transition"
+>
+  Book Now
+</Link>
                   </button>
                 </div>
               </div>

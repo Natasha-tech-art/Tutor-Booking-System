@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Tutors from './pages/tutors';
+import BookingPage from './pages/booking';
 
 
 function App() {
