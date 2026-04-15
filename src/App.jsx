@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Dashboard from './pages/Dashboard';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
 import Navbar from './components/Navbar';
+import Dashboard from './pages/Dashboard';
+
 
 function App() {
-  const [tutors, setTutors] = useState([]);
-  const [bookings, setBookings] = useState([]);
-
-  const addTutor = (newTutor) => {
-    const updatedTutors = [...tutors, { ...newTutor, id: Date.now() }];
-    setTutors(updatedTutors);
-    localStorage.setItem('tutors', JSON.stringify(updatedTutors));
-  };
-  useEffect(() => {
-    const savedTutors = JSON.parse(localStorage.getItem('tutors')) || [];
-    setTutors(savedTutors);
-  }, []);
-
   return (
-    <div className="App">
-      <Navbar />
-      <Dashboard addTutor={addTutor} tutors={tutors} />
-    </div>
+    <Router>
+      <div className="App relative bg-slate-900 min-h-screen text-white">
+        <Navbar />
+        
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
