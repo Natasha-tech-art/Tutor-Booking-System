@@ -1,121 +1,164 @@
 import React, { useState, useEffect } from 'react';
-import { Trash2, User, BookOpen, Clock, Plus } from 'lucide-react';
+import { 
+  User, BookOpen, Clock, CheckCircle, 
+  XCircle, Plus, Trash2, Calendar, 
+  DollarSign, TrendingUp 
+} from 'lucide-react';
 
 const Dashboard = () => {
-  const [tutorProfile, setTutorProfile] = useState({
-    name: '',
-    subject: '',
-    price: '',
-    availability: ''
-  });
+  const [tutors, setTutors] = useState([]);
   const [sessions, setSessions] = useState([]);
-  const [isEditing, setIsEditing] = useState(true);
+  const [activeTab, setActiveTab] = useState('overview');
 
+  // Load all data (READ)
   useEffect(() => {
-    const savedProfile = JSON.parse(localStorage.getItem('tutor_profile'));
-    const savedSessions = JSON.parse(localStorage.getItem('sessions')) || [
-      { id: 1, student: "Alice Johnson", time: "10:00 AM", status: "Confirmed" },
-      { id: 2, student: "Bob Smith", time: "02:30 PM", status: "Pending" }
-    ];
-    if (savedProfile) {
-      setTutorProfile(savedProfile);
-      setIsEditing(false);
-    }
+    const savedTutors = JSON.parse(localStorage.getItem('tutors')) || [];
+    const savedSessions = JSON.parse(localStorage.getItem('sessions')) || [];
+    setTutors(savedTutors);
     setSessions(savedSessions);
   }, []);
 
-  const handleSaveProfile = (e) => {
-    e.preventDefault();
-    localStorage.setItem('tutor_profile', JSON.stringify(tutorProfile));
-    setIsEditing(false);
-  };
-  const deleteSession = (id) => {
-    const updated = sessions.filter(s => s.id !== id);
-    setSessions(updated);
-    localStorage.setItem('sessions', JSON.stringify(updated));
+  // Delete a profile or session (DELETE)
+  const handleDelete = (id, type) => {
+    if (type === 'tutor') {
+      const updated = tutors.filter(t => t.id !== id);
+      setTutors(updated);
+      localStorage.setItem('tutors', JSON.stringify(updated));
+    } else {
+      const updated = sessions.filter(s => s.id !== id);
+      setSessions(updated);
+      localStorage.setItem('sessions', JSON.stringify(updated));
+    }
   };
 
   return (
-    <div 
-      className="min-h-screen w-full flex items-center justify-center p-6 bg-cover bg-center"
-      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=2071')` }}
-    >
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl text-white">
+    <div className="min-h-screen pt-28 pb-10 px-6 bg-slate-950 text-white">
+      <div className="max-w-7xl mx-auto">
         
-        <div className="md:col-span-1 border-r border-white/10 pr-6">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <User className="w-6 h-6" /> Profile
-          </h2>
-          
-          {isEditing ? (
-            <form onSubmit={handleSaveProfile} className="space-y-4">
-              <input 
-                type="text" 
-                placeholder="Name" 
-                className="w-full bg-white/20 border border-white/30 rounded-lg p-2 placeholder-white/60 focus:outline-none"
-                value={tutorProfile.name}
-                onChange={(e) => setTutorProfile({...tutorProfile, name: e.target.value})}
-              />
-              <input 
-                type="text" 
-                placeholder="Subject" 
-                className="w-full bg-white/20 border border-white/30 rounded-lg p-2 placeholder-white/60 focus:outline-none"
-                value={tutorProfile.subject}
-                onChange={(e) => setTutorProfile({...tutorProfile, subject: e.target.value})}
-              />
-              <input 
-                type="number" 
-                placeholder="Price/hr ($)" 
-                className="w-full bg-white/20 border border-white/30 rounded-lg p-2 placeholder-white/60 focus:outline-none"
-                value={tutorProfile.price}
-                onChange={(e) => setTutorProfile({...tutorProfile, price: e.target.value})}
-              />
-              <button className="w-full bg-blue-500/80 hover:bg-blue-600 p-2 rounded-lg font-semibold transition">
-                Save Profile
-              </button>
-            </form>
-          ) : (
-            <div className="space-y-3">
-              <p className="text-xl font-medium">{tutorProfile.name}</p>
-              <p className="flex items-center gap-2 opacity-80"><BookOpen size={18}/> {tutorProfile.subject}</p>
-              <p className="opacity-80">${tutorProfile.price}/hour</p>
-              <button 
-                onClick={() => setIsEditing(true)}
-                className="mt-4 text-sm underline opacity-60 hover:opacity-100"
-              >
-                Edit Details
-              </button>
-            </div>
-          )}
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+          <div>
+            <h1 className="text-4xl font-extrabold tracking-tight">User Dashboard</h1>
+            <p className="text-white/50 mt-1 font-medium">Manage your profile and upcoming sessions</p>
+          </div>
+          <div className="flex gap-3">
+             <div className="bg-white/5 backdrop-blur-md border border-white/10 p-3 rounded-2xl flex items-center gap-3">
+                <div className="bg-blue-500/20 p-2 rounded-xl text-blue-400">
+                  <TrendingUp size={20} />
+                </div>
+                <div>
+                  <p className="text-xs text-white/40 uppercase font-bold">Total Sessions</p>
+                  <p className="text-xl font-bold">{sessions.length}</p>
+                </div>
+             </div>
+          </div>
         </div>
 
-        <div className="md:col-span-2">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Clock className="w-6 h-6" /> Upcoming Sessions
-          </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           
-          <div className="space-y-4 overflow-y-auto max-h-[400px] pr-2">
-            {sessions.map((session) => (
-              <div 
-                key={session.id} 
-                className="flex items-center justify-between bg-white/10 p-4 rounded-2xl border border-white/10 hover:bg-white/20 transition group"
-              >
-                <div>
-                  <p className="font-semibold">{session.student}</p>
-                  <p className="text-sm opacity-70">{session.time} • {session.status}</p>
-                </div>
-                <button 
-                  onClick={() => deleteSession(session.id)}
-                  className="text-red-400 hover:text-red-300 p-2 opacity-0 group-hover:opacity-100 transition"
-                >
-                  <Trash2 size={20} />
-                </button>
-              </div>
-            ))}
+          {/* Sidebar Navigation */}
+          <div className="lg:col-span-1 space-y-4">
+            <button 
+              onClick={() => setActiveTab('overview')}
+              className={`w-full flex items-center gap-3 px-6 py-4 rounded-2xl transition font-bold ${activeTab === 'overview' ? 'bg-blue-600 shadow-lg shadow-blue-500/20' : 'bg-white/5 hover:bg-white/10 border border-white/5'}`}
+            >
+              <User size={20} /> My Profile
+            </button>
+            <button 
+              onClick={() => setActiveTab('sessions')}
+              className={`w-full flex items-center gap-3 px-6 py-4 rounded-2xl transition font-bold ${activeTab === 'sessions' ? 'bg-blue-600 shadow-lg shadow-blue-500/20' : 'bg-white/5 hover:bg-white/10 border border-white/5'}`}
+            >
+              <Calendar size={20} /> Bookings
+            </button>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="lg:col-span-3 space-y-6">
             
-            {sessions.length === 0 && (
-              <p className="text-center py-10 opacity-50 italic">No bookings yet.</p>
+            {activeTab === 'overview' && (
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[35px] p-8">
+                <div className="flex justify-between items-center mb-8">
+                  <h2 className="text-2xl font-bold">Tutor Profile</h2>
+                  <button className="bg-blue-500 hover:bg-blue-400 p-2 rounded-xl transition">
+                    <Plus size={20} />
+                  </button>
+                </div>
+
+                {tutors.length === 0 ? (
+                  <div className="text-center py-12 border-2 border-dashed border-white/10 rounded-3xl">
+                    <p className="text-white/40 italic">No tutor profile created yet.</p>
+                  </div>
+                ) : (
+                  <div className="grid gap-4">
+                    {tutors.map(tutor => (
+                      <div key={tutor.id} className="bg-white/5 border border-white/10 p-6 rounded-2xl flex justify-between items-center group hover:border-blue-500/50 transition">
+                        <div className="flex items-center gap-4">
+                          <div className="w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl">
+                            {tutor.name.charAt(0)}
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-lg">{tutor.name}</h3>
+                            <p className="text-blue-400 text-sm font-medium">{tutor.subject}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-6">
+                          <div className="text-right hidden sm:block">
+                            <p className="text-xs text-white/40 uppercase font-bold">Rate</p>
+                            <p className="font-bold text-green-400">${tutor.price}/hr</p>
+                          </div>
+                          <button 
+                            onClick={() => handleDelete(tutor.id, 'tutor')}
+                            className="p-3 text-red-400 hover:bg-red-500/10 rounded-xl transition opacity-0 group-hover:opacity-100"
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
+
+            {activeTab === 'sessions' && (
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[35px] p-8">
+                <h2 className="text-2xl font-bold mb-8">Upcoming Sessions</h2>
+                
+                {sessions.length === 0 ? (
+                  <div className="text-center py-12 border-2 border-dashed border-white/10 rounded-3xl">
+                    <p className="text-white/40 italic">You have no booked sessions.</p>
+                  </div>
+                ) : (
+                  <div className="grid gap-4">
+                    {sessions.map(session => (
+                      <div key={session.id} className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div className="flex items-center gap-4">
+                          <div className="p-3 bg-white/5 rounded-xl text-blue-400 border border-white/10">
+                            <Clock size={24} />
+                          </div>
+                          <div>
+                            <h3 className="font-bold">Session with {session.tutorName}</h3>
+                            <p className="text-sm text-white/50">{session.date} at {session.time}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="px-3 py-1 bg-green-500/10 text-green-400 text-xs font-bold rounded-full border border-green-500/20 uppercase tracking-wider">
+                            Confirmed
+                          </span>
+                          <button 
+                            onClick={() => handleDelete(session.id, 'session')}
+                            className="p-2 text-white/30 hover:text-red-400 transition"
+                          >
+                            <XCircle size={20} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
         </div>
       </div>
