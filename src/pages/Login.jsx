@@ -1,60 +1,96 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Mail, Lock, LogIn, ArrowRight, } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Lock, ArrowRight, GraduationCap } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const [role, setRole] = useState('student');
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Logic: In a real app, you'd verify the user here.
+    // For now, we route based on the selected role.
+    if (role === 'student') {
+      navigate('/tutors');
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
   return (
     <div 
       className="min-h-screen flex items-center justify-center bg-cover bg-center p-6 bg-slate-950"
-      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=2070')` }}
+      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=2071')` }}
     >
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[40px] p-10 shadow-2xl text-white mt-10">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-black mb-2">Welcome Back</h2>
-          <p className="text-white/50 font-medium">Log in to continue your learning journey</p>
+      {/* Dark Blur Overlay */}
+      <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"></div>
+
+      <div className="relative w-full max-w-md bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[35px] p-8 md:p-10 shadow-2xl text-white animate-in fade-in zoom-in duration-500">
+        
+        {/* Logo Icon */}
+        <div className="flex justify-center mb-6">
+          <div className="bg-blue-600 p-4 rounded-2xl shadow-lg shadow-blue-600/30">
+            <GraduationCap size={32} />
+          </div>
         </div>
 
-        <form className="space-y-6">
+        <h2 className="text-3xl font-black text-center mb-2 tracking-tighter">Welcome Back</h2>
+        <p className="text-center text-white/50 mb-8 text-sm font-medium tracking-wide">Continue your journey with TutorFlow</p>
+
+        {/* Role Switcher */}
+        <div className="flex bg-black/20 p-1.5 rounded-2xl mb-8 border border-white/10">
+          <button 
+            type="button" 
+            onClick={() => setRole('student')} 
+            className={`flex-1 py-2.5 rounded-xl text-sm font-black transition-all ${role === 'student' ? 'bg-blue-600 text-white shadow-lg' : 'text-white/40 hover:bg-white/5'}`}
+          >
+            Student
+          </button>
+          <button 
+            type="button" 
+            onClick={() => setRole('tutor')} 
+            className={`flex-1 py-2.5 rounded-xl text-sm font-black transition-all ${role === 'tutor' ? 'bg-blue-600 text-white shadow-lg' : 'text-white/40 hover:bg-white/5'}`}
+          >
+            Tutor
+          </button>
+        </div>
+
+        <form onSubmit={handleLogin} className="space-y-5">
+          {/* Email Input */}
           <div className="relative group">
-            <label className="text-xs font-bold uppercase tracking-widest text-white/40 ml-1 mb-2 block">Email Address</label>
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-blue-400 transition" size={20} />
-              <input 
-                type="email" 
-                placeholder="name@example.com" 
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-blue-400 focus:bg-white/10 transition font-medium"
-              />
-            </div>
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-blue-400 transition-colors" size={20} />
+            <input 
+              type="email" 
+              placeholder="Email Address" 
+              required 
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium placeholder:text-white/20" 
+            />
           </div>
 
+          {/* Password Input */}
           <div className="relative group">
-            <div className="flex justify-between items-center mb-2">
-              <label className="text-xs font-bold uppercase tracking-widest text-white/40 ml-1 block">Password</label>
-              <span className="text-xs text-blue-400 font-bold hover:underline cursor-pointer">Forgot?</span>
-            </div>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-blue-400 transition" size={20} />
-              <input 
-                type="password" 
-                placeholder="••••••••" 
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-blue-400 focus:bg-white/10 transition font-medium"
-              />
-            </div>
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-blue-400 transition-colors" size={20} />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              required 
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-blue-500 focus:bg-white/10 transition-all font-medium placeholder:text-white/20" 
+            />
           </div>
 
-          <button className="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-black text-lg mt-4 shadow-xl shadow-blue-600/20 flex items-center justify-center gap-2 transition-all active:scale-95">
-            Login <LogIn size={20} />
+          {/* Login Button */}
+          <button 
+            type="submit" 
+            className="w-full bg-white text-slate-950 hover:bg-blue-600 hover:text-white py-4 rounded-2xl font-black text-lg mt-4 shadow-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-white/5"
+          >
+            Login <ArrowRight size={20} />
           </button>
         </form>
 
-        <div className="mt-8 pt-8 border-t border-white/10 text-center">
-          <p className="text-white/50 font-medium">
-            Don't have an account? 
-            <Link to="/signup" className="text-blue-400 ml-2 font-black hover:underline">
-              Sign Up
-            </Link>
-          </p>
-        </div>
+        {/* Footer Link */}
+        <p className="text-center mt-8 text-white/40 text-sm font-bold">
+          Don't have an account? <Link to="/signup" className="text-blue-400 hover:text-blue-300 transition-colors">Sign Up Free</Link>
+        </p>
       </div>
     </div>
   );
