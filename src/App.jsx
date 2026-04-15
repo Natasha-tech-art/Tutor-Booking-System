@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Tutors from './pages/tutors';
 import BookingPage from './pages/booking';
+import Signup from './pages/Signup';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tutors" element={<Tutors />} />
           <Route path="/book/:tutorName" element={<BookingPage />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </div>
     </Router>
