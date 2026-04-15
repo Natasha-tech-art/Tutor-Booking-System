@@ -1,49 +1,42 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, LayoutDashboard, Search, Home, LogIn } from 'lucide-react';
+import { BookOpen, LayoutDashboard, Search, Home, UserPlus } from 'lucide-react';
 
 const Navbar = () => {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl">
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-4 py-3 flex items-center justify-between shadow-2xl">
-
-        <Link to="/" className="flex items-center gap-2 text-white font-bold text-lg md:text-xl">
-          <div className="bg-blue-600 p-2 rounded-lg shadow-lg">
-            <BookOpen size={20} className="text-white" />
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-6 py-3 flex items-center justify-between shadow-2xl">
+        
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 text-white font-bold text-xl">
+          <div className="bg-blue-600 p-2 rounded-lg">
+            <BookOpen size={20} />
           </div>
-          <span className="tracking-tight">TutorFlow</span>
+          <span className="hidden sm:block">TutorFlow</span>
         </Link>
 
-        <div className="flex items-center gap-4 md:gap-8 text-white font-semibold">
-          <Link to="/" className="flex items-center gap-2 hover:text-blue-400 transition group">
-            <Home size={18} />
-            <span className="text-sm md:text-base">Home</span>
+        {/* Navigation Links */}
+        <div className="flex items-center gap-6 md:gap-10 text-white/90 font-medium">
+          <Link to="/" className="hover:text-blue-400 transition flex items-center gap-2">
+            <Home size={18} /> <span className="hidden md:block">Home</span>
           </Link>
-
-          <Link to="/tutors" className="flex items-center gap-2 hover:text-blue-400 transition group">
-            <Search size={18} />
-            <span className="text-sm md:text-base">Browse Tutors</span>
+          <Link to="/tutors" className="hover:text-blue-400 transition flex items-center gap-2">
+            <Search size={18} /> <span className="hidden md:block">Tutors</span>
           </Link>
-
-          <Link to="/dashboard" className="flex items-center gap-2 hover:text-blue-400 transition group">
-            <LayoutDashboard size={18} />
-            <span className="text-sm md:text-base">Dashboard</span>
+          <Link to="/dashboard" className="hover:text-blue-400 transition flex items-center gap-2">
+            <LayoutDashboard size={18} /> <span className="hidden md:block">Dashboard</span>
           </Link>
+        </div>
 
-        <Link to="/dashboard" className="flex items-center gap-2 hover:text-blue-400 transition group">
-          <LayoutDashboard size={18} />
-          <span className="text-sm md:text-base">Book Now</span>
+        {/* Sign Up / Login Section */}
+        <Link 
+          to="/signup" 
+          className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg active:scale-95"
+        >
+          <UserPlus size={18} />
+          <span className="hidden sm:block">Join Now</span>
         </Link>
-
-      <Link to="/dashboard" className="flex items-center gap-2 hover:text-blue-400 transition group">
-        <LayoutDashboard size={18} />
-        <span className="text-sm md:text-base">Sign Up</span>
-      </Link>
-    </div> 
-    <button className="hidden sm:flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl border border-white/30 transition text-xs md:text-sm font-bold">
-        <LogIn size={16} /> Login
-      </button>
-    </div>
+      </div>
     </nav>
   );
 };
