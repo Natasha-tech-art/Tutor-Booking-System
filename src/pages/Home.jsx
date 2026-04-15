@@ -1,8 +1,9 @@
 import React from 'react';
 import { Star, ArrowRight, Users, Award, CheckCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 const Home = () => {
+
   return (
     <div className="min-h-screen w-full font-sans text-white">
       <section 
@@ -18,12 +19,14 @@ const Home = () => {
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <button className="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 transition-all hover:scale-105">
-              <Link to="/signup" className="flex items-center gap-2">
+              <Link to="/signup" 
+              className="flex items-center gap-2">
                 Find a Tutor <ArrowRight size={20} />
               </Link>
             </button>
             <button className="bg-white/10 hover:bg-white/20 border border-white/30 px-8 py-4 rounded-2xl font-bold text-lg transition-all">
-              <Link to="/signup" className="flex items-center gap-2">
+              <Link to="/signup" 
+              className="flex items-center gap-2">
               Become a Tutor
               </Link>
             </button>
