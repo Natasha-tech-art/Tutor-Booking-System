@@ -5,9 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Tutors from './pages/Tutors';
-import BookingPage from './pages/Booking';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import BookingPage from './pages/Booking';
 
 // Component Imports
 import Navbar from './components/Navbar';
