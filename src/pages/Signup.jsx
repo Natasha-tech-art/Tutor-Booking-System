@@ -61,7 +61,6 @@ const Signup = () => {
           </button>
         </form>
 
-        {/* THE MISSING LINK IS BACK! */}
         <p className="text-center mt-8 text-white/40 text-sm font-bold">
           Already have an account? <Link to="/login" className="text-blue-400 hover:text-blue-300 transition-colors">Log In</Link>
         </p>
