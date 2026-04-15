@@ -15,7 +15,6 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-[100] px-6 py-6">
       <div className="max-w-7xl mx-auto bg-white/5 backdrop-blur-xl border border-white/10 rounded-[28px] px-8 py-4 flex justify-between items-center shadow-2xl">
         
-        {/* Logo Section */}
         <Link to="/" className="flex items-center gap-3 text-white group">
           <div className="bg-blue-600 p-2.5 rounded-2xl group-hover:rotate-12 transition-all duration-300 shadow-lg shadow-blue-600/30">
             <GraduationCap size={24} className="text-white" />
@@ -25,8 +24,6 @@ const Navbar = () => {
             <span className="text-[10px] font-black uppercase tracking-[3px] text-blue-400 opacity-80">Network</span>
           </div>
         </Link>
-
-        {/* Dynamic Navigation Links */}
         <div className="hidden md:flex items-center gap-2">
           {navLinks.map((link) => (
             <Link 
@@ -39,8 +36,6 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
-
-        {/* Account Action */}
         <Link 
           to="/signup" 
           className="bg-white text-slate-950 px-7 py-3 rounded-2xl font-black text-sm hover:bg-blue-600 hover:text-white transition-all shadow-xl active:scale-95 flex items-center gap-2"
