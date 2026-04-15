@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-// FIX 1: Use 'GraduationCap' (Capital G) and added 'from'
 import { User, Mail, Lock, ArrowRight, GraduationCap, School } from 'lucide-react';
-// FIX 2: Added the word 'from' which was missing in your screenshot
 import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
@@ -26,7 +24,6 @@ const Signup = () => {
         <h2 className="text-3xl font-extrabold text-center mb-2">Create Account</h2>
         <p className="text-center text-white/60 mb-8 text-sm">Join the community of lifelong learners</p>
 
-        {/* Role Selection */}
         <div className="flex bg-black/20 p-1 rounded-2xl mb-8">
           <button 
             type="button"
