@@ -1,10 +1,10 @@
 import React from 'react';
 import { Star, ArrowRight, Users, Award, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
     <div className="min-h-screen w-full font-sans text-white">
-      {/* HERO SECTION */}
       <section 
         className="h-screen w-full flex items-center justify-center bg-cover bg-center px-6"
         style={{ backgroundImage: `url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=2070')` }}
@@ -18,16 +18,18 @@ const Home = () => {
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <button className="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 transition-all hover:scale-105">
-              Find a Tutor <ArrowRight size={20} />
+              <Link to="/signup" className="flex items-center gap-2">
+                Find a Tutor <ArrowRight size={20} />
+              </Link>
             </button>
             <button className="bg-white/10 hover:bg-white/20 border border-white/30 px-8 py-4 rounded-2xl font-bold text-lg transition-all">
+              <Link to="/signup" className="flex items-center gap-2">
               Become a Tutor
+              </Link>
             </button>
           </div>
         </div>
       </section>
-
-      {/* SATISFIED STUDENTS SECTION */}
       <section className="py-24 bg-slate-900 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -51,8 +53,6 @@ const Home = () => {
                 "I went from a D to an A- in just three weeks. My tutor was so patient and explained things in a way my teacher never could!"
               </p>
             </div>
-
-            {/* Testimonial 2 */}
             <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-green-400 to-blue-500" />
@@ -66,7 +66,6 @@ const Home = () => {
               </p>
             </div>
 
-            {/* Testimonial 3 */}
             <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-pink-500 to-orange-400" />

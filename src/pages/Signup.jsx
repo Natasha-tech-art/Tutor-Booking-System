@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, Mail, Lock, ArrowRight, GraduationCap, School } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const [role, setRole] = useState('student'); // student or tutor
@@ -62,7 +63,10 @@ const Signup = () => {
         </form>
 
         <p className="text-center mt-6 text-sm text-white/50">
-          Already have an account? <span className="text-blue-400 cursor-pointer font-bold hover:underline">Log In</span>
+          Already have an account?
+          <Link to="/login" className="text-blue-400 cursor-pointer font-bold hover:underline">
+            Log In
+          </Link>
         </p>
       </div>
     </div>

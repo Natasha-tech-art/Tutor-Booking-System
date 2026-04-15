@@ -16,7 +16,6 @@ function App() {
   return (
     <Router>
       <div className="App relative bg-slate-900 min-h-screen text-white">
-        {/* The Navbar stays at the top of every page */}
         <Navbar />
         
         <Routes>
