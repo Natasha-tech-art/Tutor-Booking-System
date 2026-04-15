@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Mail, Lock, ArrowRight, graduationCap, School } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, GraduationCap, School } from 'lucide-react';
 
 const Signup = () => {
   const [role, setRole] = useState('student'); // student or tutor
