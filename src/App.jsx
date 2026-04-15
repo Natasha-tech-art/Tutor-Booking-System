@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Tutors from './pages/tutors';
 import BookingPage from './pages/booking';
 import Signup from './pages/Signup';
-
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
           <Route path="/tutors" element={<Tutors />} />
           <Route path="/book/:tutorName" element={<BookingPage />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>
