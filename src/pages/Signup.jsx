@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { User, Mail, Lock, ArrowRight, GraduationCap } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-// IMPORTANT: Make sure this path points exactly to your config file
 import { auth, db } from '../firebase/config'; 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
