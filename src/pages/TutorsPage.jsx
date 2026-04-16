@@ -15,7 +15,7 @@ const TutorsPage = () => {
         const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setTutors(list);
       } catch (err) {
-        console.error("Database error:", err);
+        console.error("Database Error:", err);
       } finally {
         setLoading(false);
       }
@@ -25,16 +25,17 @@ const TutorsPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 p-10 text-white">
-      <h1 className="text-4xl font-black mb-8 tracking-tighter">Available Tutors</h1>
+      <h1 className="text-5xl font-black mb-10 tracking-tighter text-blue-500">Available Tutors</h1>
+      
       {loading ? (
-        <div className="text-center py-20">Loading real-time tutors...</div>
+        <p className="animate-pulse text-white/50">Fetching database...</p>
+      ) : tutors.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {tutors.map(t => <TutorCard key={t.id} tutor={t} />)}
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {tutors.length > 0 ? (
-            tutors.map(t => <TutorCard key={t.id} tutor={t} />)
-          ) : (
-            <p className="text-white/30 italic">No tutors found in the system yet.</p>
-          )}
+        <div className="border-2 border-dashed border-white/10 p-20 rounded-[40px] text-center">
+          <p className="text-white/30 text-xl italic font-bold">The marketplace is currently empty. Sign up as a tutor to appear here!</p>
         </div>
       )}
     </div>
