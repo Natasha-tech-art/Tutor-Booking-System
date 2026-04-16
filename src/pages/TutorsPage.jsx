@@ -15,7 +15,7 @@ const TutorsPage = () => {
         const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setTutors(list);
       } catch (err) {
-        console.error("Database Error:", err);
+        console.error("Database error:", err);
       } finally {
         setLoading(false);
       }
@@ -25,24 +25,18 @@ const TutorsPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 p-10 text-white">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-black mb-2 tracking-tighter">Find a Tutor</h1>
-        <p className="text-white/40 mb-12 font-bold italic">Real-time data from your Firebase system</p>
-        
-        {loading ? (
-          <div className="flex justify-center mt-20"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500"></div></div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tutors.length > 0 ? (
-              tutors.map(t => <TutorCard key={t.id} tutor={t} />)
-            ) : (
-              <div className="col-span-full text-center py-20 bg-white/5 rounded-[40px] border border-dashed border-white/10">
-                <p className="text-white/20 text-xl font-bold italic">No tutors found in the database yet.</p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+      <h1 className="text-4xl font-black mb-8 tracking-tighter">Available Tutors</h1>
+      {loading ? (
+        <div className="text-center py-20">Loading real-time tutors...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {tutors.length > 0 ? (
+            tutors.map(t => <TutorCard key={t.id} tutor={t} />)
+          ) : (
+            <p className="text-white/30 italic">No tutors found in the system yet.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
