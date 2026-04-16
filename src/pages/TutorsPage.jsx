@@ -10,7 +10,6 @@ const TutorsPage = () => {
   useEffect(() => {
     const fetchTutors = async () => {
       try {
-        // Query to only show users where role is "tutor"
         const q = query(collection(db, "users"), where("role", "==", "tutor"));
         const snapshot = await getDocs(q);
         const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
