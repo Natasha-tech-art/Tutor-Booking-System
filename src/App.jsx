@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Signup from './pages/Signup';
 import TutorsPage from './pages/TutorsPage';
-import Login from './pages/login';
+import LoginPage from './pages/LoginPage';
 import Booking from './pages/booking';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Route path="/tutors" element={<TutorsPage />} />
           <Route path="/book/:tutorName" element={<Booking />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
     </Router>
