@@ -1,17 +1,19 @@
-// import { initializeApp } from "firebase/app";
-// import { getAuth } from "firebase/auth";
-// import { getFirestore } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// const firebaseConfig = {
-//   apiKey: "YOUR_KEY",
-//   authDomain: "YOUR_DOMAIN",
-//   projectId: "YOUR_ID",
-//   storageBucket: "YOUR_STORAGE_BUCKET",
-//   messagingSenderId: "YOUR_SENDER_ID",
-//   appId: "YOUR_APP_ID",
-// };
+const firebaseConfig = {
+  apiKey: "AIzaSyCdKYDK_i41Rwzzk69k_ZM3kJ-hwkSA2sM",
+  authDomain: "tutor-booking-system-9fb13.firebaseapp.com",
+  projectId: "tutor-booking-system-9fb13",
+  storageBucket: "tutor-booking-system-9fb13.firebasestorage.app",
+  messagingSenderId: "995482678556",
+  appId: "1:995482678556:web:05081081e6228765ea36d9",
+  measurementId: "G-JH1V0KK2RW"
+};
 
-// const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-// export const auth = getAuth(app);
-// export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
