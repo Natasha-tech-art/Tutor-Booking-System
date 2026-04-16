@@ -3,11 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Star, Filter, GraduationCap } from 'lucide-react';
 
- 
-
-
-
-function TutorsPage() {
+ function TutorsPage() {
     const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
 

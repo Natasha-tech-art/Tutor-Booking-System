@@ -1,20 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// Page Imports
+import Navbar from './components/Nav';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Signup from './pages/Signup';
 import TutorsPage from './pages/TutorsPage';
 import Login from './pages/login';
 import Booking from './pages/booking';
-import Navbar from './components/navbar';
 
 function App() {
   return (
     <Router>
       <div className="App relative bg-slate-900 min-h-screen text-white">
-        <Navbar />
+        <Navbar/>
         
         <Routes>
           <Route path="/" element={<Home />} />
