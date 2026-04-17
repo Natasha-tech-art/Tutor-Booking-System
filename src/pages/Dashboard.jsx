@@ -24,16 +24,28 @@ const TutorDashboard = () => {
   }, []);
 
   const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      const userRef = doc(db, "users", auth.currentUser.uid);
-      await updateDoc(userRef, profile);
-      setIsEditing(false);
-      alert("Profile updated successfully!");
-    } catch (err) {
-      alert("Error updating profile: " + err.message);
-    }
-  };
+  e.preventDefault();
+  
+  // 1. Get the current user right at the moment of clicking
+  const user = auth.currentUser;
+
+  // 2. SAFETY CHECK: If the user isn't found, don't try to update!
+  if (!user) {
+    alert("Session expired. Please log out and log back in to save changes.");
+    return;
+  }
+
+  try {
+    // 3. Use the verified user.uid
+    const userRef = doc(db, "users", user.uid);
+    await updateDoc(userRef, profile);
+    setIsEditing(false);
+    alert("Profile updated successfully!");
+  } catch (err) {
+    console.error("Update Error:", err);
+    alert("Error updating profile: " + err.message);
+  }
+};
 
   const handleDeleteAccount = async () => {
     if (window.confirm("Are you sure? This will permanently delete your tutor account.")) {
