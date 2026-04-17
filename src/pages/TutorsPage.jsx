@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase/config';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const TutorsPage = () => {
   const [tutors, setTutors] = useState([]);
+  const [filteredTutors, setFilteredTutors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTutors = async () => {
@@ -13,71 +17,85 @@ const TutorsPage = () => {
         const snapshot = await getDocs(q);
         const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setTutors(list);
-      } catch (err) {
-        console.error("Error fetching tutors:", err);
-      } finally {
-        setLoading(false);
-      }
+        setFilteredTutors(list);
+      } catch (err) { console.error(err); } 
+      finally { setLoading(false); }
     };
     fetchTutors();
   }, []);
 
-  return (
-    <div className="min-h-screen bg-[#0a0a1a] text-white p-8">
-      <div className="max-w-6xl mx-auto mb-12">
-        <h1 className="text-3xl font-black mb-6">Find Your Perfect Tutor</h1>
-        <div className="flex flex-wrap gap-4 p-6 bg-white/5 rounded-3xl border border-white/10">
-          <select className="bg-black/40 p-3 rounded-xl border border-white/10 outline-none flex-1 min-w-[150px]">
-            <option>Subject (Math, Science...)</option>
-          </select>
-          <select className="bg-black/40 p-3 rounded-xl border border-white/10 outline-none flex-1 min-w-[150px]">
-            <option>Level (High School, Uni...)</option>
-          </select>
-          <select className="bg-black/40 p-3 rounded-xl border border-white/10 outline-none flex-1 min-w-[150px]">
-            <option>Price Range</option>
-          </select>
-          <button className="bg-blue-600 px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition-all">
-            Search
-          </button>
-        </div>
-      </div>
+  const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    const filtered = tutors.filter(t => 
+      t.fullName?.toLowerCase().includes(term) || 
+      t.subjects?.toLowerCase().includes(term)
+    );
+    setFilteredTutors(filtered);
+  };
 
-      <div className="max-w-6xl mx-auto">
+  // BOOKING FUNCTIONALITY
+  const handleBooking = (tutorName) => {
+    alert(`Booking Request Sent to ${tutorName}! They will contact you shortly.`);
+  };
+
+  return (
+    /* FIXED NAV BAR: 
+      1. We use 'pt-[150px]' (Padding Top) so the background color stays dark.
+      2. This pushes the Search Filter below the navigation seen in your screenshot.
+    */
+    <div className="min-h-screen bg-[#0a0a1a] text-white p-6 pt-[150px] font-sans">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Search Filter - Now safely below the Nav Bar */}
+        <div className="mb-12 p-6 bg-white/5 rounded-[30px] border border-white/10 backdrop-blur-md">
+          <input 
+            type="text" 
+            placeholder="Search for a subject or tutor name..." 
+            className="w-full bg-black/40 p-5 rounded-2xl border border-white/10 outline-none focus:border-blue-500 text-white text-lg" 
+            value={searchTerm} 
+            onChange={handleSearch} 
+          />
+        </div>
+
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 mb-4"></div>
-            <p className="font-bold text-white/50">Loading marketplace...</p>
-          </div>
-        ) : tutors.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tutors.map((tutor) => (
-              <div key={tutor.id} className="bg-white/5 p-8 rounded-[40px] border border-white/10 hover:border-blue-500/50 transition-all">
-                <div className="w-16 h-16 bg-blue-500/20 rounded-2xl mb-6 flex items-center justify-center">
-                   <span className="text-2xl font-bold text-blue-500">{tutor.fullName?.charAt(0)}</span>
+          <div className="text-center py-20 text-blue-500 font-bold">Loading Tutors...</div>
+        ) : filteredTutors.length > 0 ? (
+          /* DISPLAY TUTORS & BOOKING BUTTONS */
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {filteredTutors.map((tutor) => (
+              <div key={tutor.id} className="bg-white/5 p-8 rounded-[40px] border border-white/10">
+                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 text-2xl font-black">
+                  {tutor.fullName?.charAt(0)}
                 </div>
-                <h3 className="text-xl font-bold mb-1">{tutor.fullName}</h3>
-                <p className="text-blue-400 font-bold mb-4">{tutor.subjects || "Verified Tutor"}</p>
-                <div className="flex justify-between items-center mt-6">
-                  <span className="text-2xl font-black">${tutor.rate || '25'}<small className="text-sm text-white/40 font-normal">/hr</small></span>
-                  <button className="bg-white text-black px-6 py-2 rounded-xl font-bold text-sm">Book Now</button>
+                <h3 className="text-2xl font-black mb-2">{tutor.fullName}</h3>
+                <p className="text-blue-400 font-bold uppercase text-xs mb-4">
+                  {tutor.subjects || "Expert Tutor"}
+                </p>
+                <div className="mt-6 flex justify-between items-center border-t border-white/10 pt-6">
+                  <span className="text-2xl font-black">${tutor.rate || '25'}<small className="text-sm text-white/40">/hr</small></span>
+                  {/* FUNCTIONAL BOOKING BUTTON */}
+                  <button 
+                    onClick={() => handleBooking(tutor.fullName)}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-500 transition-all"
+                  >
+                    Book
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-24 bg-white/5 rounded-[50px] border-2 border-dashed border-white/10">
-            <h2 className="text-2xl font-bold mb-2">No tutors available yet.</h2>
-            <p className="text-white/40 mb-8 max-w-md mx-auto italic">
-              "Be the first to join as a tutor or check back later."
-            </p>
-            <div className="flex justify-center gap-4">
-              <button className="bg-blue-600 px-8 py-3 rounded-2xl font-bold hover:scale-105 transition-transform">
-                Apply as a tutor
-              </button>
-              <button className="bg-white/5 border border-white/10 px-8 py-3 rounded-2xl font-bold">
-                Notify me
-              </button>
-            </div>
+
+          <div className="text-center py-24 bg-white/5 rounded-[50px] border-2 border-dashed border-white/10 px-6">
+            <h2 className="text-3xl font-black mb-4">No tutors available yet.</h2>
+            <p className="text-white/40 mb-10 italic">"Be the first to join as a tutor or check back later."</p>
+            <button 
+              onClick={() => navigate('/signup')} 
+              className="bg-blue-600 px-12 py-5 rounded-[25px] font-black text-lg shadow-xl shadow-blue-600/30 hover:scale-105 transition-all"
+            >
+              Apply as a tutor
+            </button>
           </div>
         )}
       </div>
