@@ -1,38 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase/config';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkUser = async () => {
-      if (auth.currentUser) {
-        const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
-        if (userDoc.exists() && userDoc.data().role === 'tutor') {
-          setUserData(userDoc.data());
-        } else {
-          navigate('/tutors');
-        }
-      } else {
-        navigate('/login');
+    const unsub = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const docRef = await getDoc(doc(db, "users", user.uid));
+        if (docRef.exists()) setUserData(docRef.data());
       }
-    };
-    checkUser();
-  }, [navigate]);
+      setLoading(false);
+    });
+    return unsub;
+  }, []);
+
+  if (loading) return <div className="min-h-screen bg-[#0a0a1a] flex items-center justify-center text-white font-bold">Verifying Profile...</div>;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-10">
-      <div className="max-w-2xl mx-auto bg-white/5 border border-white/10 p-10 rounded-[40px]">
-        <h1 className="text-3xl font-black mb-2 text-blue-500">Tutor Dashboard</h1>
-        <p className="text-white/40 mb-10 font-bold uppercase tracking-widest">Active Session: {userData?.email}</p>
+    <div className="min-h-screen bg-[#0a0a1a] text-white p-10">
+      <h1 className="text-3xl font-black mb-8 text-blue-500">Tutor Dashboard</h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="bg-white/5 p-8 rounded-[35px] border border-white/10">
+          <p className="text-white/40 text-xs font-bold uppercase mb-1">Total Earnings</p>
+          <p className="text-3xl font-black">$0.00</p>
+        </div>
+        <div className="bg-white/5 p-8 rounded-[35px] border border-white/10">
+          <p className="text-white/40 text-xs font-bold uppercase mb-1">Active Bookings</p>
+          <p className="text-3xl font-black">0</p>
+        </div>
+      </div>
 
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-          <h3 className="font-bold mb-4">Account Status: <span className="text-green-500 uppercase">{userData?.role}</span></h3>
-          <p className="text-white/60 mb-6 text-sm italic">You are visible in the search results of the Tutors Page.</p>
-          <button onClick={() => auth.signOut()} className="bg-red-500/20 text-red-500 px-6 py-2 rounded-xl font-bold border border-red-500/50">Log Out</button>
+      <div className="bg-white/5 p-12 rounded-[40px] border border-white/10 text-center">
+        <p className="text-xl font-bold mb-2">You don't have any bookings yet.</p>
+        <p className="text-white/40 mb-8">Set your availability to start receiving student requests.</p>
+        <div className="flex justify-center gap-4">
+          <button className="bg-blue-600 px-6 py-3 rounded-2xl font-bold">Set availability</button>
+          <button className="bg-white/10 px-6 py-3 rounded-2xl font-bold border border-white/10">Complete your profile</button>
         </div>
       </div>
     </div>
